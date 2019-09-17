@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.co.itcen.mysite.action.guestbook.GuestBookActionFactory;
 import kr.co.itcen.mysite.dao.GuestbookDao;
 import kr.co.itcen.mysite.vo.GuestbookVo;
+import kr.co.itcen.web.mvc.Action;
+import kr.co.itcen.web.mvc.ActionFactory;
 
 //Servlet을 생성할때
 //Url을 지정해주는 영역에서 
@@ -25,11 +28,22 @@ public class GuestBookServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		//factory 패턴 적용을 위한 코드
 		request.setCharacterEncoding("utf-8");
+		String actionName = request.getParameter("a");
+		
+		ActionFactory actionFactory = new GuestBookActionFactory();
+		Action action = actionFactory.getAction(actionName);
+		action.execute(request, response);
+		
 
-		String action = request.getParameter("a");
-
+		
+		 //factory 패턴 적용을 적용하지 않고, Servlet으로만 처리하기 위한 코드
+		 /* String action = request.getParameter("a");
 		if ("add".equals(action)) {
+			
+			
 			String name = request.getParameter("name");
 			String password = request.getParameter("password");
 			String contents = request.getParameter("contents");
@@ -41,7 +55,7 @@ public class GuestBookServlet extends HttpServlet {
 
 			new GuestbookDao().insert(vo);
 			response.sendRedirect(request.getContextPath() + "/guestbook");
-
+			
 		} else if ("deleteform".equals(action)) {
 			//forward
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/guestbook/deleteform.jsp");
@@ -69,6 +83,7 @@ public class GuestBookServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/guestbook/list.jsp");
 			rd.forward(request, response);
 		}
+		*/
 
 	}
 

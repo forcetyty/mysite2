@@ -26,8 +26,6 @@ public class MainServlet extends HttpServlet {
 		Action action = actionFactory.getAction(actionName);
 		action.execute(request, response);
 		
-
-
 	}
 
 	@Override
