@@ -1,12 +1,6 @@
 package kr.co.itcen.mysite.action.guestbook;
 
-import java.util.List;
 
-import javax.servlet.RequestDispatcher;
-
-import kr.co.itcen.mysite.controller.GuestBookServlet;
-import kr.co.itcen.mysite.dao.GuestbookDao;
-import kr.co.itcen.mysite.vo.GuestbookVo;
 import kr.co.itcen.web.mvc.Action;
 import kr.co.itcen.web.mvc.ActionFactory;
 

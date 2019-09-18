@@ -1,15 +1,16 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@page import="kr.co.itcen.mysite.vo.UserVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%
-	UserVo vo = (UserVo) request.getAttribute("auth");
-%>
 <!DOCTYPE html>
 <html>
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="<%=request.getContextPath()%>/assets/css/user.css"
+<link
+	href="${pageContext.servletContext.contextPath }/assets/css/user.css"
 	rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -19,36 +20,39 @@
 		<div id="content">
 			<div id="user">
 
-				<form id="join-form" name="updateform" method="post" action="<%=request.getContextPath()%>/user">
-					<input type='hidden' name='a' value='update' /> 
+				<form id="join-form" name="updateform" method="post"
+					action="${pageContext.servletContext.contextPath }/user">
+					<input type='hidden' name='a' value='update' />
 
-					<input type="hidden" name="no" value="<%=vo.getNo()%>">
-					
-					<label class="block-label" for="name">이름</label> 
-					<input id="name" name="name" type="text" value="<%=vo.getName()%>"> 
-					<label class="block-label" for="email">이메일</label>
-					<h4><%=vo.getEmail()%></h4>
+					<%-- <input type="hidden" name="no" value="<%=vo.getNo()%>"> --%>
+					<input type="hidden" name="no" value="${auth.no }"> <label
+						class="block-label" for="name">이름</label> <input id="name"
+						name="name" type="text" value="${auth.name }"> <label
+						class="block-label" for="email">이메일</label>
+					<h4>${auth.email }</h4>
 
-					<label class="block-label">패스워드</label> <input name="password" type="password" value="">
-
-					
+					<label class="block-label">패스워드</label> <input name="password"
+						type="password" value="">
 					<fieldset>
-						<%
-							if (vo.getGender().equals("female")) {
-						%>
+
 						<legend>성별</legend>
-						<label>여</label> <input type="radio" name="gender" value="female"
-							checked="checked"> <label>남</label> <input type="radio"
-							name="gender" value="male">
-						<%
-							} else {
-						%>
-						<label>여</label> <input type="radio" name="gender" value="female">
-						<label>남</label> <input type="radio" name="gender" value="male"
-							checked="checked">
-						<%
-							}
-						%>
+						<c:choose>
+							<c:when test="${'female' eq vo.gender }">
+								<label>여</label>
+								<input type="radio" name="gender" value="female"
+									checked="checked">
+								<label>남</label>
+								<input type="radio" name="gender" value="male">
+							</c:when>
+
+							<c:when test="${'male' eq vo.gender }">
+								<label>여</label>
+								<input type="radio" name="gender" value="female">
+								<label>남</label>
+								<input type="radio" name="gender" value="male" checked="checked">
+							</c:when>
+						</c:choose>
+
 					</fieldset>
 
 					<input type="submit" value="수정하기">
