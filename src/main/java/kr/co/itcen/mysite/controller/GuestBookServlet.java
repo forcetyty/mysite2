@@ -30,7 +30,7 @@ public class GuestBookServlet extends HttpServlet {
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		//factory 패턴 적용을 위한 코드
-		request.setCharacterEncoding("utf-8");
+		//request.setCharacterEncoding("utf-8");
 		String actionName = request.getParameter("a");
 		
 		ActionFactory actionFactory = new GuestBookActionFactory();

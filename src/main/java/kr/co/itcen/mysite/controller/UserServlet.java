@@ -19,7 +19,7 @@ public class UserServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		
-		request.setCharacterEncoding("utf-8");
+		//request.setCharacterEncoding("utf-8");
 
 		String actionName = request.getParameter("a");
 

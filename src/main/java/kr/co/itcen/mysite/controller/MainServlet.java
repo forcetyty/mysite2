@@ -18,14 +18,29 @@ public class MainServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.setCharacterEncoding("utf-8");
+
+		// request.setCharacterEncoding("utf-8");
+		
+		//ServletContext = Application
+		//request.getServletContext().getInitParameter();
+		
 		
 		String actionName = request.getParameter("a");
 
 		ActionFactory actionFactory = new MainActionFactory();
 		Action action = actionFactory.getAction(actionName);
 		action.execute(request, response);
-		
+
+	}
+
+	@Override
+	public void init() throws ServletException {
+		// TODO Auto-generated method stub
+		String configPath = getServletConfig().getInitParameter("config");
+		System.out.println(configPath);
+
+		super.init();
+
 	}
 
 	@Override

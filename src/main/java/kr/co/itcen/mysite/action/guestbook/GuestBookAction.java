@@ -21,6 +21,7 @@ public class GuestBookAction implements Action{
 		
 		List<GuestbookVo> list = new GuestbookDao().getList();
 		request.setAttribute("list", list);
+		
 		WebUtils.forward(request, response, "/WEB-INF/views/guestbook/list.jsp");
 	}
 
