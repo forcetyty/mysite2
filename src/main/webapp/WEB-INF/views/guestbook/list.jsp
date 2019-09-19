@@ -19,7 +19,6 @@
 <body>
 	<div id="container">
 		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
-
 		<div id="content">
 			<div id="guestbook">
 				<form action="${pageContext.servletContext.contextPath }/guestbook"
