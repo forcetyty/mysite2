@@ -41,7 +41,8 @@
 								</td>
 							</c:if>
 							<td>
-							${vo.title }</td>
+							<a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no }">
+							${vo.title }</a></td>
 							<td>${vo.name }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.reg_date }</td>

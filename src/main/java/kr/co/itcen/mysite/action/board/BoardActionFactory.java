@@ -15,7 +15,11 @@ public class BoardActionFactory extends ActionFactory {
 		} else if("write".equals(actionName)) {
 			System.out.println("write 호출");
 			action = new WriteAction();
-		} else {
+		} else if("view".equals(actionName)){
+			action = new ViewFormAction();
+		}else if("modify".equals(actionName)){
+			action = new ModifyFormAction();
+		}else {
 			/* deafult(list) */
 			action = new ListAction();
 			System.out.println(action);

@@ -11,11 +11,80 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.itcen.mysite.vo.BoardUserListVo;
+import kr.co.itcen.mysite.vo.BoardViewVo;
 import kr.co.itcen.mysite.vo.BoardVo;
 import kr.co.itcen.mysite.vo.GuestbookVo;
 import kr.co.itcen.mysite.vo.UserVo;
 
 public class BoardDao {
+	
+	// View에 선택한 게시글을 표시해주는 Dao Method
+	public  BoardViewVo selectView(Long no) {
+		BoardViewVo result = new BoardViewVo();
+		
+		//List<BoardUserListVo> result = new ArrayList<BoardUserListVo>();
+
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			connection = getConnection();
+			
+			/// 제목, 글쓴이, 메일, 등록일, 조회수, 내용
+			String sql = "select b.no, b.title, u.name , u.email, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.hit, b.contents from user as u, board as b where b.user_no = u.no and b.no = ?";
+			pstmt = connection.prepareStatement(sql);
+			
+			pstmt.setLong(1, no);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				Long num = rs.getLong(1);
+				String title = rs.getString(2);
+				String name = rs.getString(3);
+				String email = rs.getString(4);
+				String date_format = rs.getString(5);
+				Long hit = rs.getLong(6);
+				String contents = rs.getString(7);
+				
+
+				BoardViewVo vo = new BoardViewVo();
+
+				vo.setNo(num);
+				vo.setTitle(title);
+				vo.setName(name);
+				vo.setEmail(email);
+				vo.setReg_date(date_format);
+				vo.setHit(hit);
+				vo.setContents(contents);
+				
+
+				result = vo;
+			}
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+		
+	}
+	
 
 	// 방명록에 대한 정보를 가져오는 Dao Method
 	public List<BoardUserListVo> getList() {
@@ -34,7 +103,7 @@ public class BoardDao {
 			// 작성일
 			//
 
-			String sql = "select u.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s') from user as u, board as b where u.no = b.user_no";
+			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s') from user as u, board as b where u.no = b.user_no";
 			pstmt = connection.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();

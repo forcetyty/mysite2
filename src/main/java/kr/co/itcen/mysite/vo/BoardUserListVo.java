@@ -15,6 +15,7 @@ public class BoardUserListVo {
 	private String name;
 	private Long hit;
 	private String reg_date;
+	
 
 	public Long getNo() {
 		return no;
