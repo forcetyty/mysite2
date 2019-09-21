@@ -1,6 +1,5 @@
 package kr.co.itcen.mysite.dao;
 
-import java.awt.print.Book;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,42 +12,146 @@ import java.util.List;
 import kr.co.itcen.mysite.vo.BoardUserListVo;
 import kr.co.itcen.mysite.vo.BoardViewVo;
 import kr.co.itcen.mysite.vo.BoardVo;
-import kr.co.itcen.mysite.vo.GuestbookVo;
-import kr.co.itcen.mysite.vo.UserVo;
 
 public class BoardDao {
-	
-	// View에 선택한 게시글을 표시해주는 Dao Method
-	public  BoardViewVo selectView(Long no) {
-		BoardViewVo result = new BoardViewVo();
-		
-		//List<BoardUserListVo> result = new ArrayList<BoardUserListVo>();
 
+	// 게시글에 대한 삭제를 처리해주는 Dao
+	public void deleteUpdate(Long vo) {
+		Connection connection = null; // 연결객체
+		PreparedStatement pstmt = null; // 운반객체
+
+		try {
+			connection = getConnection();
+
+			// 삭제되는 게식글에 대한 항목
+			String sql = "update board set status = false where no = ?";
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setLong(1, vo);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	// Hit Update 처리해주는 Dao
+	public void hitUpdate(Long vo) {
+		Connection connection = null; // 연결객체
+		PreparedStatement pstmt = null; // 운반객체
+
+		try {
+			connection = getConnection();
+			// 업데이트 되는 항목 hit
+			String sql = "update board set hit = hit + 1 where no = ?";
+
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setLong(1, vo); // 게시판 글에 대한 업데이트 처리
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	// View에서 Modify에 들어간후 Modify에서 수정을 했을때의 동작
+	// Update를 동작하게 하는 화면!!!
+	public void updateModify(BoardVo vo) {
+
+		// Update해주어 되는 값
+		// 제목 //내용 //등록일자
+
+		// 데이터베이스와 연결해주는 기능
+		Connection connection = null; // 연결객체
+		PreparedStatement pstmt = null; // 운반객체
+
+		try {
+			connection = getConnection();
+			// 업데이트 되는 항목 title / contents / reg_date
+			String sql = "update board set title = ?, contents = ?, reg_date = now() where no = ?";
+			pstmt = connection.prepareStatement(sql);
+
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContents());
+			pstmt.setLong(3, vo.getNo());
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	// View에 선택한 게시글을 표시해주는 Dao Method
+	public BoardViewVo selectView(Long no) {
+		BoardViewVo result = new BoardViewVo();
+
+		// List<BoardUserListVo> result = new ArrayList<BoardUserListVo>();
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
 		try {
 			connection = getConnection();
-			
+
 			/// 제목, 글쓴이, 메일, 등록일, 조회수, 내용
-			String sql = "select b.no, b.title, u.name , u.email, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.hit, b.contents from user as u, board as b where b.user_no = u.no and b.no = ?";
+			String sql = "select b.no, b.title, u.name , u.email, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.hit, b.contents, b.user_no from user as u, board as b where b.user_no = u.no and b.no = ?";
 			pstmt = connection.prepareStatement(sql);
-			
+
 			pstmt.setLong(1, no);
-			
+
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 
-				Long num = rs.getLong(1);
-				String title = rs.getString(2);
-				String name = rs.getString(3);
-				String email = rs.getString(4);
-				String date_format = rs.getString(5);
-				Long hit = rs.getLong(6);
-				String contents = rs.getString(7);
-				
+				Long num = rs.getLong(1); // 글 번호
+				String title = rs.getString(2); // 타이틀
+				String name = rs.getString(3); // 이름
+				String email = rs.getString(4); // 이메일
+				String date_format = rs.getString(5); // 날짜
+				Long hit = rs.getLong(6); // 조회수
+				String contents = rs.getString(7); // 글 내용
+				Long user_no = rs.getLong(8); // 유저 번호
 
 				BoardViewVo vo = new BoardViewVo();
 
@@ -59,7 +162,7 @@ public class BoardDao {
 				vo.setReg_date(date_format);
 				vo.setHit(hit);
 				vo.setContents(contents);
-				
+				vo.setUser_no(user_no);
 
 				result = vo;
 			}
@@ -82,11 +185,10 @@ public class BoardDao {
 		}
 
 		return result;
-		
-	}
-	
 
-	// 방명록에 대한 정보를 가져오는 Dao Method
+	}
+
+	// 게시판에 대한 정보를 가져오는 Dao Method
 	public List<BoardUserListVo> getList() {
 		List<BoardUserListVo> result = new ArrayList<BoardUserListVo>();
 
@@ -103,7 +205,7 @@ public class BoardDao {
 			// 작성일
 			//
 
-			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s') from user as u, board as b where u.no = b.user_no";
+			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s') from user as u, board as b where u.no = b.user_no and b.status = 1";
 			pstmt = connection.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();

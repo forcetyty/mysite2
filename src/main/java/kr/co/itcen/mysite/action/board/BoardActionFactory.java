@@ -9,6 +9,10 @@ public class BoardActionFactory extends ActionFactory {
 	public Action getAction(String actionName) {
 		Action action = null;
 		
+		//g_no  - 그룹
+		//o_no  - 그룹에 종속되는 댓글
+		//depth - 글에 깊이
+		
 		if("writeform".equals(actionName)) {
 			System.out.println("writeForm 호출");
 			action = new WriteFormAction();
@@ -17,8 +21,14 @@ public class BoardActionFactory extends ActionFactory {
 			action = new WriteAction();
 		} else if("view".equals(actionName)){
 			action = new ViewFormAction();
-		}else if("modify".equals(actionName)){
+		} else if("modifyform".equals(actionName)){
 			action = new ModifyFormAction();
+		} else if("modify".equals(actionName)) {
+			action = new ModifyAction();
+		} else if("delete".equals(actionName)) {
+			action = new DeleteAction();
+		} else if("reply".equals(actionName)){
+			action = new ReplyAction();
 		}else {
 			/* deafult(list) */
 			action = new ListAction();

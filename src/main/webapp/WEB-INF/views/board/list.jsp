@@ -12,6 +12,12 @@
 	href="${pageContext.servletContext.contextPath }/assets/css/board.css"
 	rel="stylesheet" type="text/css">
 </head>
+<script type="text/javascript">
+function deleteEvent() {
+	return confirm("글을 삭제하시겠습니까?")
+	
+}
+</script>
 <body>
 	<div id="container">
 		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
@@ -32,6 +38,7 @@
 						<th>&nbsp;</th>
 					</tr>
 					<c:set var="count" value='${fn:length(list) }' />
+
 					<c:forEach items='${list }' var='vo' varStatus='status'>
 						<tr>
 							<td>${count - status.index }</td>
@@ -46,7 +53,8 @@
 							<td>${vo.name }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.reg_date }</td>
-							<td><a href="" class="del">삭제</a></td>
+							<td><a href="${pageContext.servletContext.contextPath }/board?a=delete&no=${vo.no }" 
+							class="del" onclick="return deleteEvent();">삭제</a></td>
 						</tr>
 					</c:forEach>
 

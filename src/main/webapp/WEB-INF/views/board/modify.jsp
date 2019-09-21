@@ -14,7 +14,7 @@
 		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="">
+				<form class="board-form" method="post" action="${pageContext.servletContext.contextPath }/board?a=modify&no=${vo.no }">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글수정</th>

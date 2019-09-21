@@ -22,7 +22,9 @@ public class ViewFormAction implements Action  {
 		String no = request.getParameter("no");
 		
 		BoardViewVo vo = new BoardDao().selectView(Long.parseLong(no));
+		new BoardDao().hitUpdate(Long.parseLong(no));
 		
+		System.out.println(no);
 		request.setAttribute("vo", vo);
 		
 		WebUtils.forward(request, response, "/WEB-INF/views/board/view.jsp");

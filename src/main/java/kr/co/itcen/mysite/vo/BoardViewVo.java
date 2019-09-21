@@ -8,6 +8,15 @@ public class BoardViewVo {
 	private String reg_date;
 	private Long hit;
 	private String contents;
+	private Long user_no;
+
+	public Long getUser_no() {
+		return user_no;
+	}
+
+	public void setUser_no(Long user_no) {
+		this.user_no = user_no;
+	}
 
 	public String getTitle() {
 		return title;
