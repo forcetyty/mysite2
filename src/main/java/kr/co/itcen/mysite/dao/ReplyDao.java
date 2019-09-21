@@ -15,6 +15,13 @@ public class ReplyDao {
 		
 		try {
 			connection = getConnection();
+			
+			// -- no / title / contents / hit / reg_date / g_no / o_no / depth / user_no / status
+			String sql = "insert into board values(null, ?, ? , 0, now(), ?, o_no + 1, depth + 1, ?, ?);";
+			
+			//1 . title
+			//2. contents
+			//3. g_no - 그룹번호 - 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
