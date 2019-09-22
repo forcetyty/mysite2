@@ -15,6 +15,9 @@ public class BoardUserListVo {
 	private String name;
 	private Long hit;
 	private String reg_date;
+	private Long g_no;
+	private Long o_no;
+	private Long depth;
 	
 
 	public Long getNo() {
@@ -56,5 +59,31 @@ public class BoardUserListVo {
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
+
+	public Long getG_no() {
+		return g_no;
+	}
+
+	public void setG_no(Long g_no) {
+		this.g_no = g_no;
+	}
+
+	public Long getO_no() {
+		return o_no;
+	}
+
+	public void setO_no(Long o_no) {
+		this.o_no = o_no;
+	}
+
+	public Long getDepth() {
+		return depth;
+	}
+
+	public void setDepth(Long depth) {
+		this.depth = depth;
+	}
+	
+	
 
 }

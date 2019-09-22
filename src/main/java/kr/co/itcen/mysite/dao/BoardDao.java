@@ -212,7 +212,7 @@ public class BoardDao {
 			// 작성일
 			//
 
-			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s') from user as u, board as b where u.no = b.user_no and b.status = 1 order by b.no desc";
+			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s') , b.g_no, b.o_no, b.depth from user as u, board as b where u.no = b.user_no and b.status = 1 order by b.no desc";
 			pstmt = connection.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -224,6 +224,9 @@ public class BoardDao {
 				String name = rs.getString(3);
 				Long hit = rs.getLong(4);
 				String date_format = rs.getString(5);
+				Long g_no = rs.getLong(6);
+				Long o_no = rs.getLong(7);
+				Long depth = rs.getLong(8);
 
 				BoardUserListVo vo = new BoardUserListVo();
 
@@ -232,6 +235,9 @@ public class BoardDao {
 				vo.setName(name);
 				vo.setHit(hit);
 				vo.setReg_date(date_format);
+				vo.setG_no(g_no);
+				vo.setO_no(o_no);
+				vo.setDepth(depth);
 
 				result.add(vo);
 			}

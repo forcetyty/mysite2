@@ -35,18 +35,19 @@ function deleteEvent() {
 						<th>글쓴이</th>
 						<th>조회수</th>
 						<th>작성일</th>
-						<th>&nbsp;</th>
+						<th>글삭제</th>
+						
 					</tr>
 					<c:set var="count" value='${fn:length(list) }' />
 
 					<c:forEach items='${list }' var='vo' varStatus='status'>
 						<tr>
 							<td>${count - status.index }</td>
-							<c:if test="list eq null">
-								<td style="padding-left:${50*vo.depth}px">
-								<a href="${pageContext.servletContext.contextPath }/assets/images/reply.jpg"></a>
-								</td>
-							</c:if>
+							
+							<td style="padding-left:${20 * vo.depth}px">
+								<img src="${pageContext.servletContext.contextPath }/assets/images/reply.png" style='padding-left:${20*vo.depth}px'/>
+							</td>
+							
 							<td>
 							<a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no }">
 							${vo.title }</a></td>
