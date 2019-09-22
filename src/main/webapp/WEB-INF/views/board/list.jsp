@@ -36,6 +36,7 @@ function deleteEvent() {
 						<th>조회수</th>
 						<th>작성일</th>
 						<th>글삭제</th>
+						<th>&nbsp;</th>
 						
 					</tr>
 					<c:set var="count" value='${fn:length(list) }' />

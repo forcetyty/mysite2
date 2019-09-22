@@ -1,24 +1,25 @@
 package kr.co.itcen.mysite.vo;
 
-//번호
-//제목
-//글쓴이
-//조회수
-//작성일
-/**
- * @author BIT
- *
- */
-public class BoardUserListVo {
-	private Long no;
-	private String title;
-	private String name;
-	private Long hit;
-	private String reg_date;
-	private Long g_no;
-	private Long o_no;
-	private Long depth;
+public class BoardRelyVo {
+
+	private Long no; // 게시판 번호
+	private String title; // 게시판 제목
+	private String contents; // 게시판 내용
+	private Long hit; // 게시판 조회수
+	private String reg_date; // 게시판 등록일자
+	private Long g_no; // 부모
+	private Long o_no; // 답글
+	private Long depth; // 답글의 깊이
+	private Long user_no; // 유저번호
 	private Boolean status;
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
 
 	public Long getNo() {
 		return no;
@@ -36,12 +37,12 @@ public class BoardUserListVo {
 		this.title = title;
 	}
 
-	public String getName() {
-		return name;
+	public String getContents() {
+		return contents;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setContents(String contents) {
+		this.contents = contents;
 	}
 
 	public Long getHit() {
@@ -84,12 +85,14 @@ public class BoardUserListVo {
 		this.depth = depth;
 	}
 
-	public Boolean getStatus() {
-		return status;
+	public Long getUser_no() {
+		return user_no;
 	}
 
-	public void setStatus(Boolean status) {
-		this.status = status;
+	public void setUser_no(Long user_no) {
+		this.user_no = user_no;
 	}
+
+	// BoardVo 객체
 
 }

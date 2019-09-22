@@ -195,7 +195,7 @@ public class BoardDao {
 
 	}
 
-	// 게시판에 대한 정보를 가져오는 Dao Method
+	// 게시판에 글을 출력해주는 Dao
 	public List<BoardUserListVo> getList() {
 		List<BoardUserListVo> result = new ArrayList<BoardUserListVo>();
 
@@ -205,14 +205,9 @@ public class BoardDao {
 
 		try {
 			connection = getConnection();
-			// 번호
-			// 제목
-			// 글쓴이
-			// 조회수
-			// 작성일
-			//
-
-			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s') , b.g_no, b.o_no, b.depth from user as u, board as b where u.no = b.user_no and b.status = 1 order by b.no desc";
+			
+			//아래 쿼리를 통해서 리스트에 답글과 댓글을 표시
+			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s') , b.g_no, b.o_no, b.depth from user as u, board as b where u.no = b.user_no and b.status = 1 order by b.g_no desc, b.o_no asc";
 			pstmt = connection.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -262,7 +257,8 @@ public class BoardDao {
 		return result;
 	}
 
-	// 원 게시글 등록하는 기능!!!
+	// 원 게시글을 등록하는 Dao
+	// 답글과 댓글 구현 Dao는 Reply Dao에 구현되어 있음
 	public Boolean insertBoardDao(BoardVo bvo) {
 		Boolean result = false;
 
@@ -273,34 +269,8 @@ public class BoardDao {
 		ResultSet rs = null;
 
 		try {
-			// 삭제된 글
+		
 			connection = getConnection();
-
-//			`no`       INT UNSIGNED NOT NULL COMMENT '번호', 1
-//			`title`    VARCHAR(200) NOT NULL COMMENT '제목', 2
-//			`contents` TEXT         NOT NULL COMMENT '내용', 3
-//			`hit`      INT          NOT NULL COMMENT '조회수', 4
-
-//			`reg_date` DATETIME     NOT NULL COMMENT '등록일', 5
-
-//			`g_no`     INT          NOT NULL COMMENT '그룹번호', 6
-//			`o_no`     INT          NOT NULL COMMENT '그룹내순서', 7
-//			`depth`    INT          NOT NULL COMMENT '깊이', 8
-
-//			`user_no`  INT UNSIGNED NOT NULL COMMENT '회원번호', 9
-//			`status`   BOOLEAN      NULL     COMMENT '상태' 10
-
-			/*
-			 * Long num = bvo.getNo(); // 테이블의 첫 값을 넣기 pstmt.setString(1, bvo.getTitle());
-			 * // 제목 pstmt.setString(2, bvo.getContents()); // 내용
-			 * 
-			 * 
-			 * if (bvo.getO_no() == 0) { pstmt.setLong(4, num); // 그룹번호 } else {
-			 * pstmt.setLong(5, bvo.getO_no()); // 그룹내순서 }
-			 * 
-			 * pstmt.setLong(6, bvo.getDepth()); // 깊이 pstmt.setLong(7, bvo.getUser_no());
-			 * // 회원아이디 pstmt.setBoolean(8, true); // 상태
-			 */
 
 			String sql = "insert into board values(null, ?, ?, 0, now(), (select ifnull(max(bo.g_no)+1, 1) from board as bo), 0, 0, ?, ?)";
 

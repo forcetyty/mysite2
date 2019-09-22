@@ -68,19 +68,7 @@ public class WriteAction implements Action {
 //		`user_no`  INT UNSIGNED NOT NULL COMMENT '회원번호', 9
 //		`status`   BOOLEAN      NULL     COMMENT '상태' 10
 
-		
-//		bvo.setTitle(title);
-//		bvo.setContents(content);
-//		bvo.setUser_no(vo.getNo());
-//		
-//		if(bvo.getG_no() == null) {
-//			bvo.setG_no(1L);
-//			bvo.setO_no(1L);
-//			bvo.setDepth(0L);
-//		}else {
-//			bvo.setG_no(bvo.getG_no());
-//		}
-		
+				
 		bvo.setNo(vo.getNo());
 		bvo.setTitle(title);
 		bvo.setContents(content);

@@ -42,6 +42,7 @@ public class WriteFormAction implements Action {
 		}
 		/////////
 		UserVo vo = new UserDao().get(authUser.getNo());
+		
 		request.setAttribute("auth", vo);
 		
 		
