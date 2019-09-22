@@ -14,6 +14,8 @@ public class ReplyAction implements Action{
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		// 
+		
 		
 		WebUtils.forward(request, response, "/WEB-INF/views/board/write.jsp");
 	}

@@ -135,7 +135,8 @@ public class BoardDao {
 			connection = getConnection();
 
 			/// 제목, 글쓴이, 메일, 등록일, 조회수, 내용
-			String sql = "select b.no, b.title, u.name , u.email, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.hit, b.contents, b.user_no from user as u, board as b where b.user_no = u.no and b.no = ?";
+			// 이 Dao를 통해서 그룹번호, 답글순서, 깊이까지 가져온다
+			String sql = "select b.no, b.title, u.name , u.email, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.hit, b.contents, b.user_no, b.g_no, b.o_no, b.depth from user as u, board as b where b.user_no = u.no and b.no = ?";
 			pstmt = connection.prepareStatement(sql);
 
 			pstmt.setLong(1, no);
@@ -152,6 +153,9 @@ public class BoardDao {
 				Long hit = rs.getLong(6); // 조회수
 				String contents = rs.getString(7); // 글 내용
 				Long user_no = rs.getLong(8); // 유저 번호
+				Long g_no = rs.getLong(9);	//그룹번호
+				Long o_no = rs.getLong(10); //답글 순서
+				Long depth = rs.getLong(11);	//깊이
 
 				BoardViewVo vo = new BoardViewVo();
 
@@ -163,6 +167,9 @@ public class BoardDao {
 				vo.setHit(hit);
 				vo.setContents(contents);
 				vo.setUser_no(user_no);
+				vo.setG_no(g_no);
+				vo.setO_no(o_no);
+				vo.setDepth(depth);
 
 				result = vo;
 			}
@@ -205,7 +212,7 @@ public class BoardDao {
 			// 작성일
 			//
 
-			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s') from user as u, board as b where u.no = b.user_no and b.status = 1";
+			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s') from user as u, board as b where u.no = b.user_no and b.status = 1 order by b.no desc";
 			pstmt = connection.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -336,7 +343,7 @@ public class BoardDao {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 
-			String url = "jdbc:mariadb://192.168.1.81:3306/webdb?characterEncoding=utf8";
+			String url = "jdbc:mariadb://192.168.0.2:3306/webdb?characterEncoding=utf8";
 			connection = DriverManager.getConnection(url, "webdb", "webdb");
 
 		} catch (ClassNotFoundException e) {

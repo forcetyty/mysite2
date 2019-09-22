@@ -9,6 +9,9 @@ public class BoardViewVo {
 	private Long hit;
 	private String contents;
 	private Long user_no;
+	private Long g_no;
+	private Long o_no;
+	private Long depth;
 
 	public Long getUser_no() {
 		return user_no;
@@ -72,6 +75,30 @@ public class BoardViewVo {
 
 	public void setContents(String contents) {
 		this.contents = contents;
+	}
+
+	public Long getG_no() {
+		return g_no;
+	}
+
+	public void setG_no(Long g_no) {
+		this.g_no = g_no;
+	}
+
+	public Long getO_no() {
+		return o_no;
+	}
+
+	public void setO_no(Long o_no) {
+		this.o_no = o_no;
+	}
+
+	public Long getDepth() {
+		return depth;
+	}
+
+	public void setDepth(Long depth) {
+		this.depth = depth;
 	}
 
 }
