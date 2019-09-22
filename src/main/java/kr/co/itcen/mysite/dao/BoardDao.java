@@ -9,11 +9,80 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.co.itcen.mysite.vo.BoardSerchVo;
 import kr.co.itcen.mysite.vo.BoardUserListVo;
 import kr.co.itcen.mysite.vo.BoardViewVo;
 import kr.co.itcen.mysite.vo.BoardVo;
 
 public class BoardDao {
+	
+	// title과 contents로 검색가능하게 하는 Dao
+	public List<BoardSerchVo> serchList(String kwd) {
+		
+		List<BoardSerchVo> result = new ArrayList<BoardSerchVo>();
+
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			connection = getConnection();
+			
+			//아래 쿼리를 통해서 리스트에 답글과 댓글을 표시
+			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.g_no, b.o_no, b.depth from user as u, board as b where u.no = b.user_no and b.status = 1  and ( b.title like ? or b.contents like ? ) order by b.g_no desc, b.o_no asc";
+			pstmt = connection.prepareStatement(sql);
+			
+			//Like 검색어 핵심요소
+			pstmt.setString(1, "%" + kwd + "%");
+			pstmt.setString(2, "%" + kwd + "%");
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+
+				Long no = rs.getLong(1);
+				String title = rs.getString(2);
+				String name = rs.getString(3);
+				Long hit = rs.getLong(4);
+				String date_format = rs.getString(5);
+				Long g_no = rs.getLong(6);
+				Long o_no = rs.getLong(7);
+				Long depth = rs.getLong(8);
+
+				BoardSerchVo vo = new BoardSerchVo();
+
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setName(name);
+				vo.setHit(hit);
+				vo.setReg_date(date_format);
+				vo.setG_no(g_no);
+				vo.setO_no(o_no);
+				vo.setDepth(depth);
+
+				result.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+		
+	}
 
 	// 게시글에 대한 삭제를 처리해주는 Dao
 	public void deleteUpdate(Long vo) {

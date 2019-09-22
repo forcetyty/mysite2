@@ -46,6 +46,7 @@ public class ReplyAction implements Action {
 		String g_no = request.getParameter("g_no");
 		String o_no = request.getParameter("o_no");
 		String depth = request.getParameter("depth");
+		String no = request.getParameter("no");
 		
 		BoardRelyVo vo1 = new BoardRelyVo();
 		
@@ -57,6 +58,8 @@ public class ReplyAction implements Action {
 		/*vo.setG_no(vo.getG_no());
 		vo.setO_no(vo.getO_no());
 		vo.setDepth(vo.getDepth());*/
+		System.out.println(no);
+		
 		
 		vo1.setUser_no(vo.getNo());
 		vo1.setG_no(Long.parseLong(g_no));

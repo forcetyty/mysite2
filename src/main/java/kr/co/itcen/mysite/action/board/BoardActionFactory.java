@@ -31,7 +31,9 @@ public class BoardActionFactory extends ActionFactory {
 			action = new ReplyFormAction();
 		} else if("reply".equals(actionName)){
 			action = new ReplyAction();
-		}else {
+		} else if("serach".equals(actionName)) {
+			action = new SearchAction();
+		} else {
 			/* deafult(list) */
 			action = new ListAction();
 			System.out.println(action);
