@@ -29,6 +29,25 @@ public class ReplyDao {
 		}
 	}
 	
+	//답글에 답글을 달떄
+	public void reply2Insert() {
+		Connection connection = null; //연결객체
+		PreparedStatement pstmt = null; //운반객체 - Query를 묶어서 보내는 기능
+		
+		
+		try {
+			//데이터베이스와 연결 할 떄 오류가 발생 할 수 있기 때문에
+			//예외처리가 필요
+			connection = getConnection();
+			
+			String sql = "insert into board values(null,'chickin','치킨 짱', hit, now(), 2, (select max(bo.o_no) + 1 from board as bo where bo.g_no = 2 ),( select max(boo.depth) + 1 from board as boo where boo.o_no = 11), 1, 1)";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	// DataBase와 연결시키는 객체
 		private Connection getConnection() throws SQLException {
 			Connection connection = null;

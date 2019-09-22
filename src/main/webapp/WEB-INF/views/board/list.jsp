@@ -44,8 +44,10 @@ function deleteEvent() {
 						<tr>
 							<td>${count - status.index }</td>
 							
-							<td style="padding-left:${20 * vo.depth}px">
-								<img src="${pageContext.servletContext.contextPath }/assets/images/reply.png" style='padding-left:${20*vo.depth}px'/>
+							<td style="padding-left:${30 * vo.depth}px">
+								<c:if test="${vo.depth != 0}">
+									<img src="${pageContext.servletContext.contextPath }/assets/images/reply.png" style='padding-left:${30 * vo.depth}px'/>
+								</c:if>
 							</td>
 							
 							<td>
