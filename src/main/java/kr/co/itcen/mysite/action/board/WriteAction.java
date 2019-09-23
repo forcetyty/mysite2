@@ -21,17 +21,6 @@ public class WriteAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		String name = request.getParameter("name");
-//		String password = request.getParameter("password");
-//		String contents = request.getParameter("contents");
-//
-//		GuestbookVo vo = new GuestbookVo();
-//		
-//		vo.setName(name);
-//		vo.setPassword(password);
-//		vo.setContents(contents);
-//
-//		new GuestbookDao().insert(vo);
 		
 		// 접근제어(ACL)
 		HttpSession session = request.getSession();
@@ -54,20 +43,6 @@ public class WriteAction implements Action {
 		String content = request.getParameter("content");
 		
 		BoardVo bvo = new BoardVo();
-//		`no`       INT UNSIGNED NOT NULL COMMENT '번호', 1
-//		`title`    VARCHAR(200) NOT NULL COMMENT '제목', 2
-//		`contents` TEXT         NOT NULL COMMENT '내용', 3
-//		`hit`      INT          NOT NULL COMMENT '조회수', 4
-
-//		`reg_date` DATETIME     NOT NULL COMMENT '등록일', 5
-
-//		`g_no`     INT          NOT NULL COMMENT '그룹번호', 6
-//		`o_no`     INT          NOT NULL COMMENT '그룹내순서', 7
-//		`depth`    INT          NOT NULL COMMENT '깊이', 8
-
-//		`user_no`  INT UNSIGNED NOT NULL COMMENT '회원번호', 9
-//		`status`   BOOLEAN      NULL     COMMENT '상태' 10
-
 				
 		bvo.setNo(vo.getNo());
 		bvo.setTitle(title);

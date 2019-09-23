@@ -23,9 +23,11 @@
 		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${pageContext.servletContext.contextPath }/board?a=serach" method="post">
-					<input type="text" id="kwd" name="kwd" value=""> 
-					<input type="submit" value="찾기">
+				<form id="search_form"
+					action="${pageContext.servletContext.contextPath }/board?a=serach"
+					method="post">
+					<input type="text" id="kwd" name="kwd" value=""> <input
+						type="submit" value="찾기">
 				</form>
 
 				<table class="tbl-ex">
@@ -45,11 +47,11 @@
 						<tr>
 							<td>${count - status.index }</td>
 
-							<td style="padding-left:${30 * vo.depth}px"><c:if
+							<td style="padding-left:${10 * vo.depth}px"><c:if
 									test="${vo.depth != 0}">
 									<img
 										src="${pageContext.servletContext.contextPath }/assets/images/reply.png"
-										style='padding-left:${30 * vo.depth}px' />
+										style='padding-left:${10 * vo.depth}px' />
 								</c:if> <a
 								href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no }">
 									${vo.title }</a></td>
@@ -62,22 +64,32 @@
 								class="del" onclick="return deleteEvent();">삭제</a></td>
 						</tr>
 					</c:forEach>
-
 				</table>
 
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
+					<c:if test="${pageNum > 1 }">
+						<li><a href="${pageContext.servletContext.contextPath }/board?page=${pageNum-1}">◀</a></li>
+					</c:if>
+						<c:forEach begin='1' end='6' step='1' var='i'>
+							<c:choose>
+								<c:when test="${(firstBoardlist mod 6) eq (i mod 6)}">
+								<li class="selected">
+										<a href="${pageContext.servletContext.contextPath }/board?page=${pageNum+i }">${pageNum+i }</a>
+								</li>
+								</c:when>
+								<c:otherwise>
+									<li><a href="${pageContext.servletContext.contextPath }/board?page=${pageNum+i }">${pageNum+i }</a></li>	
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+	 					<c:if test="${fn:length(list) eq 6}">
+						<li><a href="${pageContext.servletContext.contextPath }/board?page=${pageNum+6}">▶</a></li>
+						</c:if>
 					</ul>
-				</div>
-				
+				</div>				
+
 				<!-- pager 추가 -->
 
 				<div class="bottom">

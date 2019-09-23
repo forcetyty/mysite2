@@ -9,12 +9,101 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.co.itcen.mysite.vo.BoardCountVo;
 import kr.co.itcen.mysite.vo.BoardSerchVo;
 import kr.co.itcen.mysite.vo.BoardUserListVo;
 import kr.co.itcen.mysite.vo.BoardViewVo;
 import kr.co.itcen.mysite.vo.BoardVo;
 
 public class BoardDao {
+	
+	
+	// 전체 게시글의 수를 가져오는 쿼리
+	public BoardCountVo countList() {
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		BoardCountVo vo = new BoardCountVo();
+		
+		try {
+			connection = getConnection();
+		
+			String sql = "select count(*) as num from board where status = 1";
+			pstmt = connection.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+			int num = rs.getInt(1);
+			
+			vo.setCountRow(num);
+			}
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return vo;
+	}
+	
+	// 전체 게시글의 수를 가져오는 쿼리
+		public BoardCountVo countList(String kwd) {
+			Connection connection = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			BoardCountVo vo = new BoardCountVo();
+			
+			try {
+				connection = getConnection();
+			
+				String sql = "select count(*) as num from board where status = 1 and like (board = ? or title = ?)";
+				pstmt = connection.prepareStatement(sql);
+				
+				//Like 검색어 핵심요소
+				pstmt.setString(1, "%" + kwd + "%");
+				pstmt.setString(2, "%" + kwd + "%");
+
+				rs = pstmt.executeQuery();
+				
+				while (rs.next()) {
+				int num = rs.getInt(1);
+				
+				vo.setCountRow(num);
+				}
+			} catch (SQLException e) {
+				System.out.println("error:" + e);
+			} finally {
+				try {
+					if (rs != null) {
+						rs.close();
+					}
+					if (pstmt != null) {
+						pstmt.close();
+					}
+					if (connection != null) {
+						connection.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			return vo;
+		}
 	
 	// title과 contents로 검색가능하게 하는 Dao
 	public List<BoardSerchVo> serchList(String kwd) {
@@ -265,7 +354,7 @@ public class BoardDao {
 	}
 
 	// 게시판에 글을 출력해주는 Dao
-	public List<BoardUserListVo> getList() {
+	public List<BoardUserListVo> getList(int start, int end) {
 		List<BoardUserListVo> result = new ArrayList<BoardUserListVo>();
 
 		Connection connection = null;
@@ -276,9 +365,12 @@ public class BoardDao {
 			connection = getConnection();
 			
 			//아래 쿼리를 통해서 리스트에 답글과 댓글을 표시
-			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s') , b.g_no, b.o_no, b.depth from user as u, board as b where u.no = b.user_no and b.status = 1 order by b.g_no desc, b.o_no asc";
+			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s') , b.g_no, b.o_no, b.depth from user as u, board as b where u.no = b.user_no and b.status = 1 order by b.g_no desc, b.o_no asc limit ?, ?";
 			pstmt = connection.prepareStatement(sql);
 
+			pstmt.setLong(1, start);
+			pstmt.setLong(2, end);
+			
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -388,7 +480,7 @@ public class BoardDao {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 
-			String url = "jdbc:mariadb://192.168.0.2:3306/webdb?characterEncoding=utf8";
+			String url = "jdbc:mariadb://192.168.1.81:3306/webdb?characterEncoding=utf8";
 			connection = DriverManager.getConnection(url, "webdb", "webdb");
 
 		} catch (ClassNotFoundException e) {

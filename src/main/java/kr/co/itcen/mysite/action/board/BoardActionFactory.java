@@ -36,8 +36,8 @@ public class BoardActionFactory extends ActionFactory {
 		} else {
 			/* deafult(list) */
 			action = new ListAction();
-			System.out.println(action);
-			System.out.println(actionName);
+			//System.out.println(action);
+			//System.out.println(actionName);
 		}
 		
 		return action;
