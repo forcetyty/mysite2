@@ -8,15 +8,17 @@
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="${pageContext.servletContext.contextPath }/assets/css/board.css"
+<link
+	href="${pageContext.servletContext.contextPath }/assets/css/board.css"
 	rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="container">
-	<jsp:include page="/WEB-INF/views/includes/header.jsp" />
+		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.servletContext.contextPath }/board">
+				<form class="board-form" method="post"
+					action="${pageContext.servletContext.contextPath }/board">
 					<input type="hidden" name="a" value="write">
 					<table class="tbl-ex">
 						<tr>
@@ -37,8 +39,8 @@
 				</form>
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/includes/navigation.jsp" />
-		<jsp:include page="/WEB-INF/views/includes/footer.jsp" />
+		<c:import url="/WEB-INF/views/includes/navigation.jsp" />
+		<c:import url="/WEB-INF/views/includes/footer.jsp" />
 	</div>
 </body>
 </html>

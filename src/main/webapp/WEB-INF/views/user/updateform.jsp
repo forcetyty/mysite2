@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div id="container">
-		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
+		<c:import url="/WEB-INF/views/includes/header.jsp" />
 
 		<div id="content">
 			<div id="user">
@@ -37,7 +37,7 @@
 
 						<legend>성별</legend>
 						<c:choose>
-							<c:when test="${'female' eq vo.gender }">
+							<c:when test="${'female' eq auth.gender }">
 								<label>여</label>
 								<input type="radio" name="gender" value="female"
 									checked="checked">
@@ -45,7 +45,7 @@
 								<input type="radio" name="gender" value="male">
 							</c:when>
 
-							<c:when test="${'male' eq vo.gender }">
+							<c:when test="${'male' eq auth.gender }">
 								<label>여</label>
 								<input type="radio" name="gender" value="female">
 								<label>남</label>
@@ -59,8 +59,8 @@
 				</form>
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/includes/navigation.jsp" />
-		<jsp:include page="/WEB-INF/views/includes/footer.jsp" />
+		<c:import url="/WEB-INF/views/includes/navigation.jsp" />
+		<c:import url="/WEB-INF/views/includes/footer.jsp" />
 	</div>
 </body>
 </html>
