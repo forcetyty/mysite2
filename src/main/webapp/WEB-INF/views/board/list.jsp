@@ -20,7 +20,7 @@
 </script>
 <body>
 	<div id="container">
-		<c:import url="/WEB-INF/views/includes/header.jsp"/>
+		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
 				<form id="search_form"
@@ -41,14 +41,14 @@
 						<th>&nbsp;</th>
 
 					</tr>
-					<c:set var="count" value='${fn:length(list) }' />
+					<c:set var="count1" value='${fn:length(list) }' />
 
 					<c:forEach items='${list }' var='vo' varStatus='status'>
 						<tr>
-							<td>${count - status.index }</td>
+							<td>${count1 - status.index }</td>
 
 							<td style="padding-left:${10 * vo.depth}px"><c:if
-									test="${vo.depth != 0}">
+									test="${vo.depth ne 0}">
 									<img
 										src="${pageContext.servletContext.contextPath }/assets/images/reply.png"
 										style='padding-left:${10 * vo.depth}px' />
@@ -69,26 +69,35 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-					<c:if test="${pageNum > 1 }">
-						<li><a href="${pageContext.servletContext.contextPath }/board?page=${pageNum-1}">◀</a></li>
-					</c:if>
-						<c:forEach begin='1' end='6' step='1' var='i'>
+						<c:if test="${pageNum > 1 }">
+							<li><a
+								href="${pageContext.servletContext.contextPath }/board?page=${pageNum}">◀</a></li>
+						</c:if>
+						<c:forEach begin='1' end='5' step='1' var='i'>
 							<c:choose>
-								<c:when test="${(firstBoardlist mod 6) eq (i mod 6)}">
-								<li class="selected">
-										<a href="${pageContext.servletContext.contextPath }/board?page=${pageNum+i }">${pageNum+i }</a>
-								</li>
+								<c:when test="${(firstBoardlist mod 5) eq (i mod 5)}">
+									<c:if test="${count > (pageNum+i-1)*5 }">
+										<li class="selected"><a
+											href="${pageContext.servletContext.contextPath }/board?page=${pageNum+i }">${pageNum+i }</a>
+										</li>
+									</c:if>
 								</c:when>
 								<c:otherwise>
-									<li><a href="${pageContext.servletContext.contextPath }/board?page=${pageNum+i }">${pageNum+i }</a></li>	
+									<c:if test="${count > (pageNum+i-1)*5 }">
+										<li><a
+											href="${pageContext.servletContext.contextPath }/board?page=${pageNum+i }">${pageNum+i }</a></li>
+									</c:if>
 								</c:otherwise>
 							</c:choose>
+
 						</c:forEach>
-	 					<c:if test="${fn:length(list) eq 6}">
-						<li><a href="${pageContext.servletContext.contextPath }/board?page=${pageNum+6}">▶</a></li>
+
+						<c:if test="${count > (pageNum+5)*5 }">
+							<li><a
+								href="${pageContext.servletContext.contextPath }/board?page=${pageNum+6}">▶</a></li>
 						</c:if>
 					</ul>
-				</div>				
+				</div>
 
 				<!-- pager 추가 -->
 

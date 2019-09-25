@@ -19,24 +19,24 @@ public class BoardDao {
 	
 	
 	// 전체 게시글의 수를 가져오는 쿼리
-	public BoardCountVo countList() {
+	public int countList() {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		BoardCountVo vo = new BoardCountVo();
+		int result = 0;
 		
 		try {
 			connection = getConnection();
 		
-			String sql = "select count(*) as num from board where status = 1";
+			String sql = "select count(*) as num from board";
 			pstmt = connection.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-			int num = rs.getInt(1);
 			
-			vo.setCountRow(num);
+			result = rs.getInt(1);
+			
 			}
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
@@ -56,7 +56,7 @@ public class BoardDao {
 			}
 		}
 		
-		return vo;
+		return result;
 	}
 	
 	// 전체 게시글의 수를 가져오는 쿼리
@@ -370,7 +370,7 @@ public class BoardDao {
 
 			pstmt.setLong(1, start);
 			pstmt.setLong(2, end);
-			
+						
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -480,7 +480,7 @@ public class BoardDao {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 
-			String url = "jdbc:mariadb://192.168.1.81:3306/webdb?characterEncoding=utf8";
+			String url = "jdbc:mariadb://192.168.1.2:3306/webdb?characterEncoding=utf8";
 			connection = DriverManager.getConnection(url, "webdb", "webdb");
 
 		} catch (ClassNotFoundException e) {
